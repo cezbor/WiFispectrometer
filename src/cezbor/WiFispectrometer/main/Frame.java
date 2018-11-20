@@ -30,7 +30,7 @@ public class Frame extends JFrame
 	private static final String serializationFilename = "lastImg.ser";
 	private File imgFile;
 
-	private int y0 = 1057;
+	private int y0 = 1057;	//1057, 948, 1048
 	private int numOfPxToAvg = 20;
 	
 	public Frame() throws HeadlessException
@@ -67,8 +67,12 @@ public class Frame extends JFrame
 				final JFileChooser fc = new JFileChooser();
 				fc.setCurrentDirectory(imgFile);
 				if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+				{
 					imgFile = fc.getSelectedFile();
-				imagePanel.update(imgFile);
+					imagePanel.update(imgFile);
+				}
+				
+				
 			}
 		});
     	
@@ -81,19 +85,27 @@ public class Frame extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				//File file = new File("C:\\Users\\Czarek\\Desktop\\cam\\13.04.2018\\20180221_143141A_halogen.jpg");
-				//ImageHandler ih = new ImageHandler(file);
-				ImageHandler ih = new ImageHandler(imgFile);
-				//ih.convertToRGBArray(0, 1057, ih.getWidth(), 20);
-				//ih.convertToRGBArray(0, 948, ih.getWidth(), 20);
-				ih.convertToRGBArray(0, y0, ih.getWidth(), numOfPxToAvg);
-				float[] luminanceArray = ih.convertRGBToLuminance();
-				
-		    	Chart chartPanel = new Chart(luminanceArray);
-				chartPanel.drawChart(luminanceArray);
-		    	
-				String sizeText = ih.getWidth() + "x" + ih.getHeight();
-				analyzeImageSizeLabel.setText(analyzeImageSizeLabelText + sizeText);;
+				try
+				{
+					//File file = new File("C:\\Users\\Czarek\\Desktop\\cam\\13.04.2018\\20180221_143141A_halogen.jpg");
+					//ImageHandler ih = new ImageHandler(file);
+					ImageHandler ih = new ImageHandler(imgFile);
+					//ih.convertToRGBArray(0, 1057, ih.getWidth(), 20);
+					//ih.convertToRGBArray(0, 948, ih.getWidth(), 20);
+					ih.convertToRGBArray(0, y0, ih.getWidth(), numOfPxToAvg);
+					float[] luminanceArray = ih.convertRGBToLuminance();
+					
+			    	Chart chartPanel = new Chart(luminanceArray);
+					chartPanel.drawChart(luminanceArray);
+			    	
+					String sizeText = ih.getWidth() + "x" + ih.getHeight();
+					analyzeImageSizeLabel.setText(analyzeImageSizeLabelText + sizeText);
+				}
+				catch (IOException e)
+				{
+					//e.printStackTrace();
+					System.err.println("Drawing chart error");
+				}
 			}
 		});
     	

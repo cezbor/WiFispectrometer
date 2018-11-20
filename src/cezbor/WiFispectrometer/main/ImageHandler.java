@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
@@ -14,18 +15,11 @@ public class ImageHandler
 	private int[][] imageRGBArray;
 	private float[] luminanceArray;
 
-	public ImageHandler(File loadingFile)
+	public ImageHandler(File loadingFile) throws IOException
 	{
 		File file = loadingFile;
-		try
-		{
-			image = ImageIO.read(file);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		if (image == null) System.out.println("blad");
+		if (file == null) throw new IOException();
+		image = ImageIO.read(file);
 	}
 	
 	public int[][] convertToRGBArray(int x0, int y0, int width, int height)
@@ -118,18 +112,27 @@ public class ImageHandler
 		//File file = new File("C:\\Users\\Czarek\\Desktop\\test.png");
 		//File file = new File("C:\\Users\\Czarek\\Desktop\\220px-Spectrum.png");
 		//File file = new File("C:\\Users\\Czarek\\Desktop\\220px-Linear_visible_spectrum.png");
-		File file = new File("C:\\Users\\Czarek\\Desktop\\cam\\13.04.2018\\20180221_143141A_halogen.jpg");
-		
-		ImageHandler ih = new ImageHandler(file);
-		ih.imageRGBArray = ih.convertToRGBArray(0, 1057, ih.image.getWidth(), 20);
-		ih.convertRGBToLuminance();
+		File file = new File("C:\\Users\\Czarek\\Desktop\\cam\\13.04.2018 zdjecia testowe 1048\\20180221_143141A_halogen.jpg");
+
+		try
+		{
+			ImageHandler ih = new ImageHandler(file);
+			ih.imageRGBArray = ih.convertToRGBArray(0, 1057, ih.image.getWidth(), 20);
+			ih.convertRGBToLuminance();
+			ImagePanel imagePanel = new ImagePanel(ih.image);
+			frame.add(imagePanel);
+			frame.setVisible(true);
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		/*
 		BufferedImage newImg = imageHandler.convertToGrey(imageHandler.image);
 		result = imageHandler.convertToRGBArray(newImg);
 		*/
-		ImagePanel imagePanel = new ImagePanel(ih.image);
-		frame.add(imagePanel);
-		frame.setVisible(true);
+		
 		/*
 		for (int i=0; i < result[0].length; i++)
 		{
