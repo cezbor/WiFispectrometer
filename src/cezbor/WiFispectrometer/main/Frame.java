@@ -18,12 +18,20 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class Frame extends JFrame
 {
 	private static final long serialVersionUID = 3245153192412275385L;
 	private static final String serializationFilename = "lastImg.ser";
 	private File imgFile;
+
+	private int y0 = 1057;
+	private int numOfPxToAvg = 20;
 	
 	public Frame() throws HeadlessException
 	{
@@ -76,7 +84,9 @@ public class Frame extends JFrame
 				//File file = new File("C:\\Users\\Czarek\\Desktop\\cam\\13.04.2018\\20180221_143141A_halogen.jpg");
 				//ImageHandler ih = new ImageHandler(file);
 				ImageHandler ih = new ImageHandler(imgFile);
-				ih.convertToRGBArray(0, 1057, ih.getWidth(), 20);
+				//ih.convertToRGBArray(0, 1057, ih.getWidth(), 20);
+				//ih.convertToRGBArray(0, 948, ih.getWidth(), 20);
+				ih.convertToRGBArray(0, y0, ih.getWidth(), numOfPxToAvg);
 				float[] luminanceArray = ih.convertRGBToLuminance();
 				
 		    	Chart chartPanel = new Chart(luminanceArray);
@@ -87,12 +97,30 @@ public class Frame extends JFrame
 			}
 		});
     	
+    	SpinnerModel spinnerModel =
+    	        new SpinnerNumberModel(y0, //initial value
+    	                               0,    //min
+    	                               2448 - numOfPxToAvg, //max
+    	                               1);   //step
+    	JSpinner spinner = new JSpinner(spinnerModel);
+    	JLabel spinnerLabel = new JLabel("wiersz pikseli: ");
+    	spinner.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent e)
+			{
+				y0 = (int)((JSpinner)e.getSource()).getValue();
+			}
+		});
+    	
     	
     	setLayout(new FlowLayout());
     	add(takePhotoButton);
 		add(getLastPhotoButton);
     	add(getChartButton);
 		add(imagePanel);
+		add(spinnerLabel);
+		add(spinner);
 		add(analyzeImageSizeLabel);
 		//add(panel);
 	    //setVisible(true);

@@ -51,9 +51,7 @@ public class ImageHandler
 	
 	public int[][] convertToRGBArray()
 	{
-		int width = image.getWidth();
-		int height = image.getHeight();
-		return convertToRGBArray(0, 0, width, height);
+		return convertToRGBArray(0, 0);
 	}
 	
 
