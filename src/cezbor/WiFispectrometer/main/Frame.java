@@ -42,8 +42,11 @@ public class Frame extends JFrame
 			public void actionPerformed(ActionEvent arg0)
 			{
 				imgFile = Camera.takeAndGetPhoto();
-				imagePanel.update(imgFile);
-				serialize(imgFile);
+				if (imgFile != null)
+				{
+					imagePanel.update(imgFile);
+					serialize(imgFile);
+				}
 			}
 		});
     	

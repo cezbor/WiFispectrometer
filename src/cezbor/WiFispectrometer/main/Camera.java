@@ -86,14 +86,16 @@ public class Camera
 			HTTPrequest.get("/data/sunxi.db");
 			String imgRemotePath = sqlite.getLatest();
 			imgFile = HTTPrequest.get(imgRemotePath);
+			return imgFile;
 			
 		}
 		catch (InterruptedException | IOException e)
 		{
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.err.println("Connection error");
+			return null;
 		}
 		
-		return imgFile;
 		
 	}
 }
