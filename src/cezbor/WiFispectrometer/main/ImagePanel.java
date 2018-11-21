@@ -2,8 +2,6 @@ package cezbor.WiFispectrometer.main;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +11,11 @@ import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel
 {
-	private BufferedImage image;
+	private static final long serialVersionUID = -6677138348675347141L;
 	private static final int ORIGINAL_IMG_WIDTH = 3264;
 	private static final int ORIGINAL_IMG_HEIGHT = 2448;
 	private static final int SCALING = 5;
+	private BufferedImage image;
 
 	public ImagePanel()
 	{
@@ -33,7 +32,7 @@ public class ImagePanel extends JPanel
     {
     	image = newImage;
     	//setPreferredSize(new Dimension(ORIGINAL_IMG_WIDTH / SCALING, ORIGINAL_IMG_HEIGHT / SCALING));
-    	setPreferredSize(new Dimension(newImage.getWidth()*10, newImage.getHeight()*10));
+    	//setPreferredSize(new Dimension(newImage.getWidth()*10, newImage.getHeight()*10));
     }
 
 	private void setEmptyImage()

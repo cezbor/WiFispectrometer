@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
-import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.DatatypeConverter;
