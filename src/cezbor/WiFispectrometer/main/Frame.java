@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -39,6 +41,7 @@ public class Frame extends JFrame
 		setSize(700, 600); 
 		setLocationByPlatform(true);
 		setTitle("Spektrometr");
+		setSystemLookAndFeel();
 		
 		imgFile = deserialize();
     	ImagePanel imagePanel = new ImagePanel(imgFile);
@@ -137,13 +140,26 @@ public class Frame extends JFrame
 		//add(panel);
 	    //setVisible(true);
 	}
-	
+
 	public static void main(String[] args)
 	{
 		Frame frame = new Frame();
 		frame.setVisible(true);
 		//frame.imgFile = new File("C:\\Users\\Czarek\\Desktop\\cam\\13.04.2018\\20180221_143141A_halogen.jpg");
 		//frame.serialize(frame.imgFile);
+	}
+	
+	private void setSystemLookAndFeel()
+	{
+		try
+		{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e1)
+		{
+			e1.printStackTrace();
+		}
 	}
 	
 	private void serialize(Object obj)
