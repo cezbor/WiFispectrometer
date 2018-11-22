@@ -58,6 +58,7 @@ public class ImageHandler
 		return luminance;
 	}
 	
+	//TODO delete
 	//Not used
 	public BufferedImage convertToGrey(BufferedImage sourceImg)
 	{
@@ -68,6 +69,7 @@ public class ImageHandler
 		return newImage;
 	}
 	
+	//TODO delete
 	//Not used
 	private String singleToRGB(int rgb)
 	{
@@ -100,6 +102,7 @@ public class ImageHandler
 		return luminanceArray;
 	}
 	
+	//TODO delete
 	public static void main(String[] args)
 	{
 		JFrame frame = new JFrame();

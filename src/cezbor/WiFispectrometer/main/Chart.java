@@ -25,7 +25,7 @@ public class Chart
 		int i = 0;
 		for(float lum : luminanceArray)
 		{
-			series.add(i, lum);
+			series.add(Converter.convertPxToNanometers(i), lum);
 			i++;
 		}
 		
