@@ -34,7 +34,7 @@ public class Chart
 		
 		JFreeChart chart = ChartFactory.createXYLineChart(
 				"",//Tytul
-				"piksele", // opisy osi
+				"d³ugoœæ fali [nm]", // opisy osi
 				"natezenie", 
 				dataset, // Dane 
 				PlotOrientation.VERTICAL, // Orjentacja wykresu /HORIZONTAL
@@ -43,7 +43,7 @@ public class Chart
 				false
 			);
 		ChartPanel p = new ChartPanel(chart);
-		ChartFrame frame1=new ChartFrame("XYLine Chart",chart);
+		ChartFrame frame1=new ChartFrame("Spektrum",chart);
 		frame1.setVisible(true);
 		frame1.setSize(500,400);
 	}

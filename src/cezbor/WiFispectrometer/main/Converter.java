@@ -16,6 +16,7 @@ public class Converter
 		return y;
 	}
 	
+	//TODO make use of it
 	public static void setCalibrationParameters(double wavelenght1, 
 			double pixels1, double wavelenght2, double pixels2)
 	{
