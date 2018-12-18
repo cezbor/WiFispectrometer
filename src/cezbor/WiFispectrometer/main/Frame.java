@@ -29,12 +29,12 @@ public class Frame extends JFrame
 	private File imgFile;
 
 	private int y0 = 948;	//1057, 948, 1048
-	private int numOfPxToAvg = 20;
+	private int numOfPxToAnalize = 20;
 	
 	public Frame() throws HeadlessException
 	{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(700, 600); 
+		setSize(700, 620); 
 		setLocationByPlatform(true);
 		setTitle("Spektrometr");
 		setSystemLookAndFeel();
@@ -89,9 +89,7 @@ public class Frame extends JFrame
 					//File file = new File("C:\\Users\\Czarek\\Desktop\\cam\\13.04.2018\\20180221_143141A_halogen.jpg");
 					//ImageHandler ih = new ImageHandler(file);
 					ImageHandler ih = new ImageHandler(imgFile);
-					//ih.convertToRGBArray(0, 1057, ih.getWidth(), 20);
-					//ih.convertToRGBArray(0, 948, ih.getWidth(), 20);
-					ih.convertToRGBArray(0, y0, ih.getWidth(), numOfPxToAvg);
+					ih.convertToRGBArray(0, y0, ih.getWidth(), numOfPxToAnalize);
 					float[] luminanceArray = ih.convertRGBToLuminance();
 					
 			    	Chart chartPanel = new Chart(luminanceArray);
@@ -111,7 +109,7 @@ public class Frame extends JFrame
     	SpinnerModel spinnerModel =
     	        new SpinnerNumberModel(y0, //initial value
     	                               0,    //min
-    	                               2448 - numOfPxToAvg, //max
+    	                               2448 - numOfPxToAnalize, //max
     	                               1);   //step
     	JSpinner spinner = new JSpinner(spinnerModel);
     	JLabel spinnerLabel = new JLabel("wiersz pikseli: ");
@@ -121,6 +119,8 @@ public class Frame extends JFrame
 			public void stateChanged(ChangeEvent e)
 			{
 				y0 = (int)((JSpinner)e.getSource()).getValue();
+				imagePanel.setY0(y0);
+				imagePanel.repaint();
 			}
 		});
     	

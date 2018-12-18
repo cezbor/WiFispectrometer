@@ -95,6 +95,28 @@ public class ImageHandler
 			{
 				sum += singleToLuminance(imageRGBArray[y][x]);
 			}
+			luminanceArray[x] = sum;
+			System.out.println(luminanceArray[x]);
+		}
+		System.out.println("Image size: " + xLength + "x" + yLength);	//Image size
+		return luminanceArray;
+	}
+	
+	//TODO delete
+	//Not used
+	public float[] convertRGBToLuminanceWithAvg()
+	{
+		int xLength = imageRGBArray[0].length;
+		int yLength = imageRGBArray.length;
+		luminanceArray = new float[xLength];
+		for (int x = 0; x < xLength; x++)
+		{
+			luminanceArray[x] = 0;
+			float sum = 0;
+			for (int y = 0; y < yLength; y++)
+			{
+				sum += singleToLuminance(imageRGBArray[y][x]);
+			}
 			luminanceArray[x] = sum / yLength;
 			System.out.println(luminanceArray[x]);
 		}
