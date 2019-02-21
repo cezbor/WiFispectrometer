@@ -28,7 +28,7 @@ public class Frame extends JFrame
 	private static final String serializationFilename = "lastImg.ser";
 	private File imgFile;
 
-	//private int y0 = 948;	//1057, 948, 1048
+	//private int y0 = 948;	//1057, 948, 1048		//TODO delete - moved
 	//private int numOfPxToAnalize = 10;
 	
 	public Frame() throws HeadlessException

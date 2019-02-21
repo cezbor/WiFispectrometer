@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.RasterFormatException;
 import java.io.File;
 import java.io.IOException;
 
@@ -90,12 +89,12 @@ public class ImagePanel extends JPanel
             		{
                     	y0 = getMousePosition().y * SCALING;
                         repaint();
-                        System.out.println("drag " + getMousePosition());
+                        //System.out.println("drag " + getMousePosition());		//DEBUG
             		}
             	}
             	catch (NullPointerException exception) 
             	{
-					//System.err.println("outside raster " + y0);
+					//System.err.println("outside raster " + y0);		//DEBUG
 				}
             	super.mouseDragged(e);
             }
@@ -117,7 +116,7 @@ public class ImagePanel extends JPanel
         		1, 
         		ORIGINAL_IMG_HEIGHT / SCALING + SPACER, 
         		ORIGINAL_IMG_WIDTH / SCALING + 1, 
-        		numOfPxToAnalize, //TODO read this from other class
+        		numOfPxToAnalize,
         		this);
         g.drawRect(0, 
         		ORIGINAL_IMG_HEIGHT / SCALING + SPACER - 1, 
