@@ -17,13 +17,14 @@ public class ImagePanel extends JPanel
 {
 	private static final long serialVersionUID = -6677138348675347141L;
 	//configurable
-	private static final int ORIGINAL_IMG_WIDTH = 3264;
-	public static final int ORIGINAL_IMG_HEIGHT = 2448;
-	private static final int SCALING = 5;
-	private static final int SPACER = 3;
+	private final int ORIGINAL_IMG_WIDTH = 3264;
+	public final int ORIGINAL_IMG_HEIGHT = 2448;
+	private final int SCALING = 5;	//higher scaling = smaller image
+	private final int SPACER = 3;
 	//
-	private static final Dimension PANEL_SIZE = new Dimension(new Dimension(ORIGINAL_IMG_WIDTH / SCALING + 2, 
-			ORIGINAL_IMG_HEIGHT / SCALING + 20 + 2 + SPACER));
+	private int numOfPxToAnalize = 20;
+	private final Dimension PANEL_SIZE = new Dimension(new Dimension(ORIGINAL_IMG_WIDTH / SCALING + 2, 
+			ORIGINAL_IMG_HEIGHT / SCALING + numOfPxToAnalize + 2 + SPACER));
 	
 	private BufferedImage image;
 	private int y0 = 948;	//1057, 948, 1048
@@ -73,7 +74,7 @@ public class ImagePanel extends JPanel
 
     public BufferedImage getSubimage(BufferedImage image)
     {
-    	BufferedImage newimg = image.getSubimage(0, y0, ORIGINAL_IMG_WIDTH, 20);
+    	BufferedImage newimg = image.getSubimage(0, y0, ORIGINAL_IMG_WIDTH, numOfPxToAnalize);
     	return newimg;
     }
     
@@ -85,7 +86,7 @@ public class ImagePanel extends JPanel
             {
             	try
             	{
-            		if (getMousePosition().y * SCALING + 20 < ORIGINAL_IMG_HEIGHT)
+            		if (getMousePosition().y * SCALING + numOfPxToAnalize < ORIGINAL_IMG_HEIGHT)
             		{
                     	y0 = getMousePosition().y * SCALING;
                         repaint();
@@ -110,15 +111,18 @@ public class ImagePanel extends JPanel
         //g.drawImage(image, 0, 0, ORIGINAL_IMG_WIDTH / SCALING, ORIGINAL_IMG_HEIGHT / SCALING, this);
         g.drawImage(image, 1, 0, ORIGINAL_IMG_WIDTH / SCALING, ORIGINAL_IMG_HEIGHT / SCALING, this);
         g.setColor(new Color(255, 0, 0));
-        g.drawRect(0, y0 / SCALING, ORIGINAL_IMG_WIDTH / SCALING + 1, 20 / SCALING);
+        g.drawRect(0, y0 / SCALING, ORIGINAL_IMG_WIDTH / SCALING + 1, numOfPxToAnalize / SCALING);
         
         g.drawImage(getSubimage(image), 
         		1, 
         		ORIGINAL_IMG_HEIGHT / SCALING + SPACER, 
         		ORIGINAL_IMG_WIDTH / SCALING + 1, 
-        		20, //TODO read this from other class
+        		numOfPxToAnalize, //TODO read this from other class
         		this);
-        g.drawRect(0, ORIGINAL_IMG_HEIGHT / SCALING + SPACER - 1, ORIGINAL_IMG_WIDTH / SCALING + 1, 20 + 1);
+        g.drawRect(0, 
+        		ORIGINAL_IMG_HEIGHT / SCALING + SPACER - 1, 
+        		ORIGINAL_IMG_WIDTH / SCALING + 1, 
+        		numOfPxToAnalize + 1);
     }
 
 	public void setY0(int y0)
@@ -130,6 +134,16 @@ public class ImagePanel extends JPanel
 	public int getY0()
 	{
 		return y0;
+	}
+
+	public void setNumOfPxToAnalize(int numOfPxToAnalize)
+	{
+		this.numOfPxToAnalize = numOfPxToAnalize;
+	}
+
+	public int getNumOfPxToAnalize()
+	{
+		return numOfPxToAnalize;
 	}
 
 }

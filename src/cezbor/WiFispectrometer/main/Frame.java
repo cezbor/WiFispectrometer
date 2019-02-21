@@ -29,7 +29,7 @@ public class Frame extends JFrame
 	private File imgFile;
 
 	//private int y0 = 948;	//1057, 948, 1048
-	private int numOfPxToAnalize = 20;
+	//private int numOfPxToAnalize = 10;
 	
 	public Frame() throws HeadlessException
 	{
@@ -89,7 +89,7 @@ public class Frame extends JFrame
 					//File file = new File("C:\\Users\\Czarek\\Desktop\\cam\\13.04.2018\\20180221_143141A_halogen.jpg");
 					//ImageHandler ih = new ImageHandler(file);
 					ImageHandler ih = new ImageHandler(imgFile);
-					ih.convertToRGBArray(0, imagePanel.getY0(), ih.getWidth(), numOfPxToAnalize);
+					ih.convertToRGBArray(0, imagePanel.getY0(), ih.getWidth(), imagePanel.getNumOfPxToAnalize());
 					float[] luminanceArray = ih.convertRGBToLuminance();
 					
 			    	Chart chartPanel = new Chart(luminanceArray);
@@ -109,7 +109,7 @@ public class Frame extends JFrame
     	SpinnerModel spinnerModel =
     	        new SpinnerNumberModel(imagePanel.getY0(), //initial value
     	                               0,    //min
-    	                               imagePanel.ORIGINAL_IMG_HEIGHT - numOfPxToAnalize, //max
+    	                               imagePanel.ORIGINAL_IMG_HEIGHT - imagePanel.getNumOfPxToAnalize(), //max
     	                               1);   //step
     	JSpinner spinner = new JSpinner(spinnerModel);
     	JLabel spinnerLabel = new JLabel("wiersz pikseli: ");
