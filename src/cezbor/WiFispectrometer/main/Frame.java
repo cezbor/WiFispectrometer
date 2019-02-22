@@ -13,14 +13,9 @@ import java.io.ObjectOutputStream;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public class Frame extends JFrame
 {
@@ -28,13 +23,14 @@ public class Frame extends JFrame
 	private static final String serializationFilename = "lastImg.ser";
 	private File imgFile;
 	
+	private ImageFrame imageFrame;
 	private ImagePanel imagePanel;
 	private JButton takePhotoButton;
 	private JButton getLastPhotoButton;
-	private JLabel analyzeImageSizeLabel;
+	//private JLabel analyzeImageSizeLabel; 	//TODO delete
 	private JButton getChartButton;
-	private JSpinner spinner;
-	private JLabel spinnerLabel;
+	private JButton optionsButton;
+	private JPanel chartPanel = new JPanel();
 	
 	
 	//private int y0 = 948;	//1057, 948, 1048		//TODO delete - moved
@@ -44,7 +40,8 @@ public class Frame extends JFrame
 	{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(700, 620); 
-		setLocationByPlatform(true);
+		//setLocationByPlatform(true);
+		setLocationRelativeTo(null); 	//center
 		setTitle("Spektrometr");
 		setSystemLookAndFeel();
 		imgFile = deserialize();
@@ -61,9 +58,10 @@ public class Frame extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				imgFile = Camera.takeAndGetPhoto();
-				if (imgFile != null)
+				File imgFileTemp = Camera.takeAndGetPhoto();
+				if (imgFileTemp != null)
 				{
+					imgFile = imgFileTemp;
 					imagePanel.update(imgFile);
 					serialize(imgFile);
 				}
@@ -88,8 +86,8 @@ public class Frame extends JFrame
 			}
 		});
     	
-    	String analyzeImageSizeLabelText = "Rozmiar obrazu: ";
-    	analyzeImageSizeLabel = new JLabel(analyzeImageSizeLabelText);
+    	//String analyzeImageSizeLabelText = "Rozmiar obrazu: ";	//TODO delete
+    	//analyzeImageSizeLabel = new JLabel(analyzeImageSizeLabelText);
     	
     	getChartButton = new JButton("Rysuj wykres");
     	getChartButton.addActionListener(new ActionListener()
@@ -97,57 +95,70 @@ public class Frame extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				try
-				{
-					//File file = new File("C:\\Users\\Czarek\\Desktop\\cam\\13.04.2018\\20180221_143141A_halogen.jpg");
-					//ImageHandler ih = new ImageHandler(file);
-					ImageHandler ih = new ImageHandler(imgFile);
-					ih.convertToRGBArray(0, imagePanel.getY0(), ih.getWidth(), imagePanel.getNumOfPxToAnalize());
-					float[] luminanceArray = ih.convertRGBToLuminance();
-					
-			    	Chart chartPanel = new Chart(luminanceArray);
-					chartPanel.drawChart(luminanceArray);
-			    	
-					String sizeText = ih.getWidth() + "x" + ih.getHeight();
-					analyzeImageSizeLabel.setText(analyzeImageSizeLabelText + sizeText);
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-					System.err.println("Drawing chart error - no image loaded?");
-				}
+				makeChart();
 			}
 		});
     	
-    	SpinnerModel spinnerModel =
-    	        new SpinnerNumberModel(imagePanel.getY0(), //initial value
-    	                               0,    //min
-    	                               imagePanel.ORIGINAL_IMG_HEIGHT - imagePanel.getNumOfPxToAnalize(), //max
-    	                               1);   //step
-    	spinner = new JSpinner(spinnerModel);
-    	spinnerLabel = new JLabel("wiersz pikseli: ");
-    	spinner.addChangeListener(new ChangeListener()
+    	
+    	
+    	
+    	optionsButton = new JButton("Dostosuj obszar pomiarowy");
+    	optionsButton.addActionListener(new ActionListener()
 		{
 			@Override
-			public void stateChanged(ChangeEvent e)
+			public void actionPerformed(ActionEvent arg0)
 			{
-				int y0 = (int)((JSpinner)e.getSource()).getValue();
-				imagePanel.setY0(y0);
+				imageFrame = new ImageFrame(imagePanel);
+				imageFrame.setVisible(true);
+
 			}
 		});
+    	
     	
     	add(takePhotoButton);
 		add(getLastPhotoButton);
     	add(getChartButton);
-		add(imagePanel);
-		add(spinnerLabel);
-		add(spinner);
-		add(analyzeImageSizeLabel);
+		//add(imagePanel);
+		//add(spinnerLabel);
+		//add(spinner);
+		//add(analyzeImageSizeLabel);	//TODO delete
+		add(optionsButton);
+		//chartPanel.setSize(300, 300);
+		//chartPanel.add(getLastPhotoButton);
+		add(chartPanel);		//TODO fix it
+		
 	}
 
 	public void setSpinnerValue(int value)
 	{
-		spinner.setValue(value);
+		imageFrame.setSpinnerValue(value);
+	}
+
+	private void makeChart()
+	{
+		try
+		{
+			//File file = new File("C:\\Users\\Czarek\\Desktop\\cam\\13.04.2018\\20180221_143141A_halogen.jpg");
+			//ImageHandler ih = new ImageHandler(file);
+			ImageHandler ih = new ImageHandler(imgFile);
+			ih.convertToRGBArray(0, imagePanel.getY0(), ih.getWidth(), imagePanel.getNumOfPxToAnalize());
+			float[] luminanceArray = ih.convertRGBToLuminance();
+			
+	    	Chart chart = new Chart(luminanceArray);
+			chart.drawChart(luminanceArray);
+			chartPanel = chart.getChartPanel();
+			add(chartPanel);		//TODO temporary - fix as soon as possible
+			setVisible(true);		//
+			
+	    	
+			//String sizeText = ih.getWidth() + "x" + ih.getHeight();	//TODO delete
+			//analyzeImageSizeLabel.setText(analyzeImageSizeLabelText + sizeText);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			System.err.println("Drawing chart error - no image loaded?");
+		}
 	}
 	
 	public static void main(String[] args)

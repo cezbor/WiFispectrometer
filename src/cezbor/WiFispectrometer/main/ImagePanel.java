@@ -22,8 +22,8 @@ public class ImagePanel extends JPanel
 	private final int SPACER = 3;
 	//
 	private int numOfPxToAnalize = 20;
-	private final Dimension PANEL_SIZE = new Dimension(new Dimension(ORIGINAL_IMG_WIDTH / SCALING + 2, 
-			ORIGINAL_IMG_HEIGHT / SCALING + numOfPxToAnalize + 2 + SPACER));
+	private final Dimension PANEL_SIZE = new Dimension(ORIGINAL_IMG_WIDTH / SCALING + 2, 
+			ORIGINAL_IMG_HEIGHT / SCALING + numOfPxToAnalize + 2 + SPACER);
 	
 	private BufferedImage image;
 	private int y0 = 948;	//1057, 948, 1048

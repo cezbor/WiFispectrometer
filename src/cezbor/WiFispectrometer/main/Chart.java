@@ -11,6 +11,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class Chart
 {
 	float[] luminanceArray;
+	private JFreeChart chart;
+	private ChartPanel chartPanel;
 	
 	public Chart(float[] luminanceArray)
 	{
@@ -32,7 +34,7 @@ public class Chart
 		XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(series);
 		
-		JFreeChart chart = ChartFactory.createXYLineChart(
+		chart = ChartFactory.createXYLineChart(
 				"",//Tytul
 				"d³ugoœæ fali [nm]", // opisy osi
 				"natezenie", 
@@ -42,11 +44,17 @@ public class Chart
 				true, // tooltips
 				false
 			);
-		ChartPanel p = new ChartPanel(chart);
-		ChartFrame frame1=new ChartFrame("Spektrum",chart);
-		frame1.setVisible(true);
-		frame1.setSize(500,400);
+		chartPanel = new ChartPanel(chart);
+		//ChartFrame frame1=new ChartFrame("Spektrum",chart);
+		//frame1.setVisible(true);
+		//frame1.setSize(500,400);
 	}
+	
+	public ChartPanel getChartPanel()
+	{
+		return chartPanel;
+	}
+
 
 	//TODO delete
 	public static void main(String arg[]){
