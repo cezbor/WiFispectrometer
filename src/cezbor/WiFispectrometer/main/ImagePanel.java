@@ -27,6 +27,7 @@ public class ImagePanel extends JPanel
 	
 	private BufferedImage image;
 	private int y0 = 948;	//1057, 948, 1048
+	Frame f;
 
 	public ImagePanel()
 	{
@@ -35,8 +36,10 @@ public class ImagePanel extends JPanel
     	mouseListener();
 	}
 	
-    public ImagePanel(File file) 
+    public ImagePanel(File file, Frame fr) 
     {
+
+    	f = fr;
     	update(file);
     	mouseListener();
     }
@@ -90,6 +93,7 @@ public class ImagePanel extends JPanel
                     	y0 = getMousePosition().y * SCALING;
                         repaint();
                         //System.out.println("drag " + getMousePosition());		//DEBUG
+                        f.setSpinnerValue(y0);
             		}
             	}
             	catch (NullPointerException exception) 
