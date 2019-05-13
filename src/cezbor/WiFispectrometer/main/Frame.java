@@ -28,6 +28,7 @@ public class Frame extends JFrame
 	private JButton getLastPhotoButton;
 	//private JLabel analyzeImageSizeLabel; 	//TODO delete
 	private JButton getChartButton;
+	private JButton getChartButton2;
 	private JButton optionsButton;
 	private Chart chart;
 	
@@ -87,16 +88,25 @@ public class Frame extends JFrame
     	//String analyzeImageSizeLabelText = "Rozmiar obrazu: ";	//TODO delete
     	//analyzeImageSizeLabel = new JLabel(analyzeImageSizeLabelText);
     	
-    	getChartButton = new JButton("Rysuj wykres");
+    	getChartButton = new JButton("Rysuj wykres A");
     	getChartButton.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				makeChart();
+				makeChart("A");
 			}
 		});
     	
+    	getChartButton2 = new JButton("Rysuj wykres B");
+    	getChartButton2.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				makeChart("B");
+			}
+		});
     	
     	
     	
@@ -116,6 +126,7 @@ public class Frame extends JFrame
     	add(takePhotoButton);
 		add(getLastPhotoButton);
     	add(getChartButton);
+    	add(getChartButton2);
 		//add(imagePanel);
 		//add(spinnerLabel);
 		//add(spinner);
@@ -132,17 +143,15 @@ public class Frame extends JFrame
 		imageFrame.setSpinnerValue(value);
 	}
 
-	private void makeChart()
+	private void makeChart(Comparable<String> seriesKey)
 	{
 		try
 		{
-			//File file = new File("C:\\Users\\Czarek\\Desktop\\cam\\13.04.2018\\20180221_143141A_halogen.jpg");
-			//ImageHandler ih = new ImageHandler(file);
 			ImageHandler ih = new ImageHandler(imgFile);
 			ih.convertToRGBArray(0, imagePanel.getY0(), ih.getWidth(), imagePanel.getNumOfPxToAnalize());
 			float[] luminanceArray = ih.convertRGBToLuminance();
 			
-	    	chart.drawChart(luminanceArray);
+	    	chart.generateSeries(luminanceArray, seriesKey);
 	    	
 			//String sizeText = ih.getWidth() + "x" + ih.getHeight();	//TODO delete
 			//analyzeImageSizeLabel.setText(analyzeImageSizeLabelText + sizeText);
