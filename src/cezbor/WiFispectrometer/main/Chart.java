@@ -10,18 +10,28 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 public class Chart
 {
-	float[] luminanceArray;
+	//float[] luminanceArray;
 	private JFreeChart chart;
 	private ChartPanel chartPanel;
 	
-	public Chart(float[] luminanceArray)
+	public Chart()
 	{
-		this.luminanceArray = luminanceArray;
+		//this.luminanceArray = luminanceArray;
+		chart = ChartFactory.createXYLineChart(
+				"",//Tytul
+				"d³ugoœæ fali [nm]", // opisy osi
+				"natezenie", 
+				null, // Dane 
+				PlotOrientation.VERTICAL, // Orjentacja wykresu /HORIZONTAL
+				true, // legenda
+				true, // tooltips
+				false
+			);
+		chartPanel = new ChartPanel(chart);
 	}
-
-	public void drawChart(float[] luminanceArray)
+	
+	private XYSeriesCollection generateDataset(float[] luminanceArray)
 	{
-
 		XYSeries series = new XYSeries("Luminance");
 		
 		int i = 0;
@@ -34,17 +44,16 @@ public class Chart
 		XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(series);
 		
-		chart = ChartFactory.createXYLineChart(
-				"",//Tytul
-				"d³ugoœæ fali [nm]", // opisy osi
-				"natezenie", 
-				dataset, // Dane 
-				PlotOrientation.VERTICAL, // Orjentacja wykresu /HORIZONTAL
-				true, // legenda
-				true, // tooltips
-				false
-			);
-		chartPanel = new ChartPanel(chart);
+		return dataset;
+	}
+	
+	public void drawChart(float[] luminanceArray)
+	{
+		XYSeriesCollection dataset = generateDataset(luminanceArray);
+		chart.getXYPlot().setDataset(dataset);
+		
+		//chartPanel.revalidate();
+		
 		//ChartFrame frame1=new ChartFrame("Spektrum",chart);
 		//frame1.setVisible(true);
 		//frame1.setSize(500,400);
@@ -54,7 +63,6 @@ public class Chart
 	{
 		return chartPanel;
 	}
-
 
 	//TODO delete
 	public static void main(String arg[]){

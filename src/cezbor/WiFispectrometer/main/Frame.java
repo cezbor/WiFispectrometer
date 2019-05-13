@@ -13,7 +13,6 @@ import java.io.ObjectOutputStream;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -30,8 +29,7 @@ public class Frame extends JFrame
 	//private JLabel analyzeImageSizeLabel; 	//TODO delete
 	private JButton getChartButton;
 	private JButton optionsButton;
-	private JPanel chartPanel = new JPanel();
-	
+	private Chart chart;
 	
 	//private int y0 = 948;	//1057, 948, 1048		//TODO delete - moved
 	//private int numOfPxToAnalize = 10;
@@ -123,9 +121,9 @@ public class Frame extends JFrame
 		//add(spinner);
 		//add(analyzeImageSizeLabel);	//TODO delete
 		add(optionsButton);
-		//chartPanel.setSize(300, 300);
-		//chartPanel.add(getLastPhotoButton);
-		add(chartPanel);		//TODO fix it
+		
+		chart = new Chart();
+    	add(chart.getChartPanel());
 		
 	}
 
@@ -144,12 +142,7 @@ public class Frame extends JFrame
 			ih.convertToRGBArray(0, imagePanel.getY0(), ih.getWidth(), imagePanel.getNumOfPxToAnalize());
 			float[] luminanceArray = ih.convertRGBToLuminance();
 			
-	    	Chart chart = new Chart(luminanceArray);
-			chart.drawChart(luminanceArray);
-			chartPanel = chart.getChartPanel();
-			add(chartPanel);		//TODO temporary - fix as soon as possible
-			setVisible(true);		//
-			
+	    	chart.drawChart(luminanceArray);
 	    	
 			//String sizeText = ih.getWidth() + "x" + ih.getHeight();	//TODO delete
 			//analyzeImageSizeLabel.setText(analyzeImageSizeLabelText + sizeText);
